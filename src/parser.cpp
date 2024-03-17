@@ -45,8 +45,6 @@ void Parser::parse(const std::string_view& line)
 
 void Parser::finalize()
 {
-    // вообще здесь не нужна защита, потому что finalize() никогда не
-    // вызывается параллельно с parse()
   const std::lock_guard<std::mutex> guard(m_protectparse);
   if(m_extendedModeLevel==0) {
     m_globalBlock->flush();
