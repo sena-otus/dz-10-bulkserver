@@ -1,0 +1,15 @@
+<map id="src/acculine.h" name="src/acculine.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,309,31"/>
+<area shape="rect" id="Node000002" href="$parser_8h.html" title=" " alt="" coords="214,79,303,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="261,46,261,79,256,79,256,46"/>
+<area shape="rect" id="Node000003" href="$bulkasync_8h.html" title=" " alt="" coords="138,153,249,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="240,118,206,154,202,150,236,114"/>
+<area shape="rect" id="Node000007" href="$parser_8cpp.html" title=" " alt="" coords="274,153,377,178"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="282,114,316,150,312,154,278,118"/>
+<area shape="rect" id="Node000004" href="$async_8cpp.html" title=" " alt="" coords="5,226,107,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="158,188,81,228,78,223,155,183"/>
+<area shape="rect" id="Node000005" href="$bulkasync_8cpp.html" title=" " alt="" coords="131,226,256,252"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="196,194,196,226,191,226,191,194"/>
+<area shape="rect" id="Node000006" href="$gtest__bulkserver_8cpp.html" title=" " alt="" coords="280,226,448,252"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="237,182,336,223,334,228,235,187"/>
+</map>
