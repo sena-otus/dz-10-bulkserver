@@ -30,7 +30,7 @@ if(WITH_TEST)
 endif()
 
 
-add_executable(bulk_server main.cpp)
+add_executable(bulk_server main.cpp netapp.cpp session.cpp)
 
 target_link_libraries(bulk_server PRIVATE async)
 
