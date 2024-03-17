@@ -95,5 +95,5 @@ private:
   unsigned m_nextuid; ///!< uid для следующего контекста
   std::shared_mutex m_mapmutex; ///!< доступ к мапе
   std::map<void *, std::unique_ptr<Parser>> m_parser; ///!< контексты потоков команд
-  std::shared_ptr<Block> m_globalBlock;
+  std::shared_ptr<Block> m_globalBlock; ///!< глобальный статический блок в котором смешиваются команды разных потоков
 };

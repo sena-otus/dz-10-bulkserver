@@ -45,7 +45,16 @@ private:
         {
           if (!ec)
           {
-            async::receive(m_handle, m_data.data(), length);
+            try
+            {
+              async::receive(m_handle, m_data.data(), length);
+            }
+            catch (const std::exception& ex)
+            {
+              std::cerr << "Ошибка при обработке потока: " << ex.what() << "\n";
+              std::cerr << "Закрытие виновного сокета..." << std::endl;
+              return;
+            }
             do_read();
           }
         });

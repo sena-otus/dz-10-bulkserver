@@ -28,11 +28,10 @@ public:
   void finalize();
 
 private:
-  std::unique_ptr<AbstractBlock> m_block;
-  std::shared_ptr<AbstractBlock> m_globalBlock;
-  int m_lineno{0};
-  int m_extendedModeLevel{0};
-  unsigned m_N;
-  AccuLine m_acculine;
-  std::mutex m_protectparse;
+  std::unique_ptr<AbstractBlock> m_block; ///!< динамический блок индивидуальный для данного потока команд
+  std::shared_ptr<AbstractBlock> m_globalBlock; ///!< глобальный статический блок общий для всех потоков команд
+  int m_extendedModeLevel{0}; ///!< уровень вложенности, минимум 0 - статический блок
+  unsigned m_N; ///!< размер статического блока
+  AccuLine m_acculine; ///!< аккумулятор входных символов выдаёт команды по мере готовности
+  std::mutex m_protectparse; ///!< мьютекс позволяет вызывать парсер из нескольки потоков
 };
