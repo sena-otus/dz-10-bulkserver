@@ -38,7 +38,7 @@ void Block::flush() {
     OutQueue::Task task{m_str, fname, false};
 
     std::for_each(m_wlist.begin(), m_wlist.end(),
-                  [&](OutQueueSP &outqptr){outqptr->put(std::move(task));});
+                  [&](OutQueueSP &outqptr){outqptr->put(task);});
     m_cmdnum = 0;
   }
 }

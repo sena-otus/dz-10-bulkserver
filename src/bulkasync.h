@@ -4,6 +4,7 @@
 #include "block.h"
 #include "parser.h"
 
+#include <memory>
 #include <shared_mutex>
 #include <thread>
 #include <map>
@@ -94,4 +95,5 @@ private:
   unsigned m_nextuid; ///!< uid для следующего контекста
   std::shared_mutex m_mapmutex; ///!< доступ к мапе
   std::map<void *, std::unique_ptr<Parser>> m_parser; ///!< контексты потоков команд
+  std::shared_ptr<Block> m_globalBlock;
 };

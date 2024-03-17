@@ -14,7 +14,7 @@ public:
    * @param N размер блока
    * @param block буфер для команд
    * */
-  explicit Parser(unsigned N, std::unique_ptr<AbstractBlock> &&block);
+  explicit Parser(unsigned N, std::unique_ptr<AbstractBlock> &&block, std::shared_ptr<AbstractBlock> globalBlock);
 
   /**
    *  @brief Разобрать строку и вывести блок по готовности
@@ -29,6 +29,7 @@ public:
 
 private:
   std::unique_ptr<AbstractBlock> m_block;
+  std::shared_ptr<AbstractBlock> m_globalBlock;
   int m_lineno{0};
   int m_extendedModeLevel{0};
   unsigned m_N;

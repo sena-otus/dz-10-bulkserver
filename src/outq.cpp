@@ -2,10 +2,12 @@
 
 using std::lock_guard;
 
-void OutQueue::put(Task &&task) {
+#include <iostream>
+
+void OutQueue::put(Task task) {
   {
     const lock_guard<std::mutex> lg(m_mutex);
-    m_oq.emplace(task);
+    m_oq.emplace(std::move(task));
   }
   m_event.notify_one();
 }

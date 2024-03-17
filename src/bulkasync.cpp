@@ -29,11 +29,17 @@ void* BulkAsync::connect(const unsigned N, const std::function<time_t()>& getTim
 {
   if(!m_qfile || !m_qcout) return nullptr;
   const std::lock_guard<std::shared_mutex> lock(m_mapmutex);
+  if(!m_globalBlock) {
+    m_globalBlock = std::make_shared<Block>(m_nextuid,
+                                            Block::wlist_t{m_qfile, m_qcout},
+                                            getTime);
+    m_nextuid++;
+  }
   auto blockptr = std::make_unique<Block>(m_nextuid,
                                           Block::wlist_t{m_qfile, m_qcout},
                                           getTime);
   m_nextuid++;
-  parserptr_t parser = std::make_unique<Parser>(N, std::move(blockptr));
+  parserptr_t parser = std::make_unique<Parser>(N, std::move(blockptr), m_globalBlock);
   auto *rawptr = parser.get();
   m_parser.emplace(rawptr, std::move(parser));
   return rawptr;

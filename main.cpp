@@ -45,25 +45,11 @@ private:
         {
           if (!ec)
           {
-            std::cout << "receive " << length << "=" << std::string{m_data.data(), length} << std::endl;
             async::receive(m_handle, m_data.data(), length);
-//            do_write(length);
+            do_read();
           }
         });
   }
-
-  // void do_write(std::size_t length)
-  // {
-  //   auto self(shared_from_this());
-  //   boost::asio::async_write(m_socket, boost::asio::buffer(m_data, length),
-  //       [this, self](boost::system::error_code ec, std::size_t /*length*/)
-  //       {
-  //         if (!ec)
-  //         {
-  //           do_read();
-  //         }
-  //       });
-  // }
 
   tcp::socket m_socket;
   enum { max_length = 1024 };
