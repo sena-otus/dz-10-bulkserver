@@ -77,9 +77,14 @@ TEST(async, input_mix) {
 
     std::filesystem::remove("bulk30000-000-000.log");
     std::filesystem::remove("bulk30001-000-000.log");
-    std::filesystem::remove("bulk30002-000-000.log");
+    std::filesystem::remove("bulk30002-001-000.log");
     std::filesystem::remove("bulk30003-000-000.log");
     std::filesystem::remove("bulk30004-000-000.log");
+    std::filesystem::remove("bulk30005-000-000.log");
+    std::filesystem::remove("bulk30006-000-000.log");
+    std::filesystem::remove("bulk30007-000-000.log");
+    std::filesystem::remove("bulk40000-002-000.log");
+    std::filesystem::remove("bulk50000-003-000.log");
 
     time_t t1 = 30000;
     time_t t2 = 40000;
@@ -93,9 +98,9 @@ TEST(async, input_mix) {
     ba.receive(h1, "h1.str1\n");
     ba.receive(h2, "h2.str1\n");
     ba.receive(h3, "h3.str1\n");
-    ba.receive(h1, "h1.str2\n");
-    ba.receive(h2, "h2.str2\n");
-    ba.receive(h3, "h3.str2\n");
+    ba.receive(h1, "h1.str2\n{\nh1.str2.1\nh1.str2.2\nh1.str2.3\n}\n");
+    ba.receive(h2, "h2.str2\n{\nh2.str2.1\nh2.str2.2\nh2.str2.3\n}\n");
+    ba.receive(h3, "h3.str2\n{\nh3.str2.1\nh3.str2.2\nh3.str2.3\n}\n");
     ba.receive(h1, "h1.str3\n");
     ba.receive(h2, "h2.str3\n");
     ba.receive(h3, "h3.str3\n");
@@ -113,10 +118,15 @@ TEST(async, input_mix) {
     ba.closeAll();
 
     EXPECT_EQ(file_contents("bulk30000-000-000.log"), "bulk: h1.str1, h2.str1, h3.str1\n");
-    EXPECT_EQ(file_contents("bulk30001-000-000.log"), "bulk: h1.str2, h2.str2, h3.str2\n");
-    EXPECT_EQ(file_contents("bulk30002-000-000.log"), "bulk: h1.str3, h2.str3, h3.str3\n");
-    EXPECT_EQ(file_contents("bulk30003-000-000.log"), "bulk: h1.str4, h2.str4, h3.str4\n");
-    EXPECT_EQ(file_contents("bulk30004-000-000.log"), "bulk: h1.str5, h2.str5, h3.str5\n");
+    EXPECT_EQ(file_contents("bulk30001-000-000.log"), "bulk: h1.str2\n");
+    EXPECT_EQ(file_contents("bulk30002-001-000.log"), "bulk: h1.str2.1, h1.str2.2, h1.str2.3\n");
+    EXPECT_EQ(file_contents("bulk40000-002-000.log"), "bulk: h2.str2.1, h2.str2.2, h2.str2.3\n");
+    EXPECT_EQ(file_contents("bulk50000-003-000.log"), "bulk: h3.str2.1, h3.str2.2, h3.str2.3\n");
+    EXPECT_EQ(file_contents("bulk30003-000-000.log"), "bulk: h2.str2\n");
+    EXPECT_EQ(file_contents("bulk30004-000-000.log"), "bulk: h3.str2\n");
+    EXPECT_EQ(file_contents("bulk30005-000-000.log"), "bulk: h1.str3, h2.str3, h3.str3\n");
+    EXPECT_EQ(file_contents("bulk30006-000-000.log"), "bulk: h1.str4, h2.str4, h3.str4\n");
+    EXPECT_EQ(file_contents("bulk30007-000-000.log"), "bulk: h1.str5, h2.str5, h3.str5\n");
   }
 }
 // NOLINTEND(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
