@@ -20,8 +20,8 @@ class session
   : public std::enable_shared_from_this<session>
 {
 public:
-  session(tcp::socket socket)
-    : m_socket(std::move(socket)), m_handle(async::connect(3))
+  session(tcp::socket socket, unsigned N)
+    : m_socket(std::move(socket)), m_handle(async::connect(N))
   {
   }
 
@@ -47,23 +47,23 @@ private:
           {
             std::cout << "receive " << length << "=" << std::string{m_data.data(), length} << std::endl;
             async::receive(m_handle, m_data.data(), length);
-            do_write(length);
+//            do_write(length);
           }
         });
   }
 
-  void do_write(std::size_t length)
-  {
-    auto self(shared_from_this());
-    boost::asio::async_write(m_socket, boost::asio::buffer(m_data, length),
-        [this, self](boost::system::error_code ec, std::size_t /*length*/)
-        {
-          if (!ec)
-          {
-            do_read();
-          }
-        });
-  }
+  // void do_write(std::size_t length)
+  // {
+  //   auto self(shared_from_this());
+  //   boost::asio::async_write(m_socket, boost::asio::buffer(m_data, length),
+  //       [this, self](boost::system::error_code ec, std::size_t /*length*/)
+  //       {
+  //         if (!ec)
+  //         {
+  //           do_read();
+  //         }
+  //       });
+  // }
 
   tcp::socket m_socket;
   enum { max_length = 1024 };
@@ -74,8 +74,8 @@ private:
 class server
 {
 public:
-  server(boost::asio::io_context& io_context, short port)
-    : m_acceptor(io_context, tcp::endpoint(tcp::v4(), port))
+  server(boost::asio::io_context& io_context, unsigned short port, unsigned N)
+    : m_acceptor(io_context, tcp::endpoint(tcp::v4(), port)), m_N{N}
   {
     do_accept();
   }
@@ -88,7 +88,7 @@ private:
         {
           if (!ec)
           {
-            std::make_shared<session>(std::move(socket))->start();
+            std::make_shared<session>(std::move(socket), m_N)->start();
           }
 
           do_accept();
@@ -96,13 +96,14 @@ private:
   }
 
   tcp::acceptor m_acceptor;
+  unsigned m_N;
 };
 
 int main(int argc, char* argv[])
 {
   try
   {
-    if (argc != 2)
+    if (argc != 3)
     {
       std::cout << "Usage\n"
                 <<"  bulk_server <tcp port> <block size>\n"
@@ -118,7 +119,9 @@ int main(int argc, char* argv[])
 
     boost::asio::io_context io_context;
 
-    server server(io_context, std::atoi(argv[1]));
+
+
+    server server(io_context, std::stoul(argv[1]), std::stoul(argv[2]));
 
     io_context.run();
   }

@@ -28,16 +28,14 @@ BulkAsync::~BulkAsync()
 void* BulkAsync::connect(const unsigned N, const std::function<time_t()>& getTime)
 {
   if(!m_qfile || !m_qcout) return nullptr;
+  const std::lock_guard<std::shared_mutex> lock(m_mapmutex);
   auto blockptr = std::make_unique<Block>(m_nextuid,
                                           Block::wlist_t{m_qfile, m_qcout},
                                           getTime);
   m_nextuid++;
   parserptr_t parser = std::make_unique<Parser>(N, std::move(blockptr));
   auto *rawptr = parser.get();
-  {
-    const std::lock_guard<std::shared_mutex> lock(m_mapmutex);
-    m_parser.emplace(rawptr, std::move(parser));
-  }
+  m_parser.emplace(rawptr, std::move(parser));
   return rawptr;
 }
 
