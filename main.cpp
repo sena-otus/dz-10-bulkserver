@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 
     boost::asio::io_context io_context;
 
-
       //NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     const NetApp server(io_context, std::stoul(argv[1]), std::stoul(argv[2]));
 
