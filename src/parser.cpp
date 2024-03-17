@@ -27,7 +27,10 @@ void Parser::parse(const std::string_view& line)
     if(*cmd == "}") {
       m_extendedModeLevel--;
       if(m_extendedModeLevel > 0) continue;
-      if(m_extendedModeLevel < 0) throw std::runtime_error("Неожиданная скобка '}'");
+      if(m_extendedModeLevel < 0) {
+        std::cerr << "игнорируется неожиданная скобка '}'" << std::endl;
+        m_extendedModeLevel = 0;
+      }
       m_block->flush();
       continue;
     }
